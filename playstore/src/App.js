@@ -25,11 +25,13 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+        </header>
+        <div className="App-body">
           <Sumador counter={this.state.counter} onSumar={this.onSumar}></Sumador>
           <Contador counter={this.state.counter}></Contador>
           <Usuarios></Usuarios>
           <Juegos></Juegos>
-        </header>
+        </div>
       </div>
     );
   }

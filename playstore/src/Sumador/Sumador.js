@@ -20,6 +20,7 @@ class Sumador extends React.Component {
   render() {
     return (
         <div className="Sumador">
+            <h3>Sumador</h3>
             <span className="CurrentSum">Current Sum: {this.state.counter}</span>
             <button type="button" onClick={this.onSumar}>Sumar</button>
         </div>

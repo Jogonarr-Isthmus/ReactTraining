@@ -28,7 +28,7 @@ class Sumador extends React.Component {
 }
 
 Sumador.defaultProps = {
-    counter: 1
+  counter: 1
 }
 
 export default Sumador;

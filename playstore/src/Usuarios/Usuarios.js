@@ -5,12 +5,7 @@ class Usuarios extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        users: [
-            { name: 'Jose', email: 'jose@email.com', password: 'j0s3' },
-            { name: 'Pablo', email: 'pablbo@email.com', password: 'p@bl0' },
-            { name: 'Gonzalez', email: 'gonzalez@email.com', password: 'g0nz@l3z' },
-            { name: 'Arrieta', email: 'arrieta@email.com', password: '@rr13t@' }
-        ]
+        users: this.props.users
     };
   }
 
@@ -44,7 +39,12 @@ class Usuarios extends React.Component {
 }
 
 Usuarios.defaultProps = {
-    users: []
+  users: [
+    { name: 'Jose', email: 'jose@email.com', password: 'j0s3' },
+    { name: 'Pablo', email: 'pablbo@email.com', password: 'p@bl0' },
+    { name: 'Gonzalez', email: 'gonzalez@email.com', password: 'g0nz@l3z' },
+    { name: 'Arrieta', email: 'arrieta@email.com', password: '@rr13t@' }
+  ]
 }
 
 export default Usuarios;

@@ -5,12 +5,7 @@ class Juegos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        games: [
-            { name: 'Quake', rating: '9.0', type: 'FPS' },
-            { name: 'COD', rating: '9.5', type: 'FPS' },
-            { name: 'Mario Kart', rating: '8.0', type: 'Racing' },
-            { name: 'Grim Fandango', rating: '10.0', type: 'Adventure' }
-        ]
+        games: this.props.games
     };
   }
 
@@ -44,7 +39,12 @@ class Juegos extends React.Component {
 }
 
 Juegos.defaultProps = {
-    games: []
+  games: [
+    { name: 'Quake', rating: '9.0', type: 'FPS' },
+    { name: 'COD', rating: '9.5', type: 'FPS' },
+    { name: 'Mario Kart', rating: '8.0', type: 'Racing' },
+    { name: 'Grim Fandango', rating: '10.0', type: 'Adventure' }
+  ]
 }
 
 export default Juegos;

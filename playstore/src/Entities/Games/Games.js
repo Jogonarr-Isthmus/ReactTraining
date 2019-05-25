@@ -1,7 +1,7 @@
 import React from 'react';
-import './Juegos.css';
+import './Games.css';
 
-class Juegos extends React.Component {
+class Games extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ class Juegos extends React.Component {
     return games;
   }
 
-  addUser = (newGame) => {
+  addGame = (newGame) => {
     var currentGames = this.state.games;
     currentGames.push(newGame);
 
@@ -28,8 +28,8 @@ class Juegos extends React.Component {
 
   render() {
     return (
-        <div className="Juegos">
-            <h3>Juegos</h3>
+        <div className="Games">
+            <h3>Games</h3>
             <ul className="GameList">
                 {this.getGames()}
             </ul>
@@ -38,7 +38,7 @@ class Juegos extends React.Component {
   }
 }
 
-Juegos.defaultProps = {
+Games.defaultProps = {
   games: [
     { name: 'Quake', rating: '9.0', type: 'FPS' },
     { name: 'COD', rating: '9.5', type: 'FPS' },
@@ -47,4 +47,4 @@ Juegos.defaultProps = {
   ]
 }
 
-export default Juegos;
+export default Games;

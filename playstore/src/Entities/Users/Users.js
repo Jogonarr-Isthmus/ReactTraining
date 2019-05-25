@@ -1,7 +1,7 @@
 import React from 'react';
-import './Usuarios.css';
+import './Users.css';
 
-class Usuarios extends React.Component {
+class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,8 +28,8 @@ class Usuarios extends React.Component {
 
   render() {
     return (
-        <div className="Usuarios">
-            <h3>Usuarios</h3>
+        <div className="Users">
+            <h3>Users</h3>
             <ul className="UserList">
                 {this.getUsers()}
             </ul>
@@ -38,13 +38,13 @@ class Usuarios extends React.Component {
   }
 }
 
-Usuarios.defaultProps = {
+Users.defaultProps = {
   users: [
     { name: 'Jose', email: 'jose@email.com', password: 'j0s3' },
-    { name: 'Pablo', email: 'pablbo@email.com', password: 'p@bl0' },
+    { name: 'Pablo', email: 'pablo@email.com', password: 'p@bl0' },
     { name: 'Gonzalez', email: 'gonzalez@email.com', password: 'g0nz@l3z' },
     { name: 'Arrieta', email: 'arrieta@email.com', password: '@rr13t@' }
   ]
 }
 
-export default Usuarios;
+export default Users;

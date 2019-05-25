@@ -1,40 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
-import Sumador from './Sumador/Sumador.js';
-import Contador from './Contador/Contador.js';
-import Usuarios from './Usuarios/Usuarios.js';
-import Juegos from './Juegos/Juegos.js';
+import Counter from './Counter/Counter.js';
+import Entities from './Entities/Entities.js'
 import './App.css';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      counter: 1
-    };
-  }
-
-  onSumar = (counter) => {
-    this.setState({
-      counter: counter
-    });
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
-        <div className="App-body">
-          <Sumador counter={this.state.counter} onSumar={this.onSumar}></Sumador>
-          <Contador counter={this.state.counter}></Contador>
-          <Usuarios></Usuarios>
-          <Juegos></Juegos>
-        </div>
+function App(props) {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+      </header>
+      <div className="App-body">
+        <p>v{React.version}</p>
+        <Counter></Counter>
+        <Entities></Entities>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;

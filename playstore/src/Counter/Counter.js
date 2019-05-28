@@ -4,14 +4,23 @@ import CounterFunc from './CounterFunc/CounterFunc.js';
 import CounterClass from './CounterClass/CounterClass.js';
 
 function Counter(props) {
+  const getCounter = () => {
+    if (props.useClassComponent) {
+      return <CounterClass counter={0}></CounterClass>
+    } else {
+      return <CounterFunc counter={0}></CounterFunc>
+    }
+  };
+
   return (
-    <div>
-      <h3>Counter</h3>
-      <CounterFunc counter={5}></CounterFunc>
-        <br />
-      <CounterClass counter={10}></CounterClass>
+    <div className="Counter">
+      {getCounter()}
     </div>
   );
 }
+
+Counter.defaultProps = {
+  useClassComponent: true
+};
 
 export default Counter;

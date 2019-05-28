@@ -3,23 +3,25 @@ import './List.css';
 
 function List(props) {
     const getHeaders = () => {
-        let rows;
+        let headers;
 
         if (props.entities && props.entities.length > 0) {
-            return (
+            const entity = props.entities[0];
+            headers = (
                 <tr>
                     {
-                        Object.keys(props.entities[0]).map((val, k) => {
-                            return (<th>{val}</th>);
+                        Object.keys(entity).map((property, propertyIndex) => {
+                            return (<th key={propertyIndex}>{property}</th>);
                         })
                     }
+                    <th>Actions</th>
                 </tr>
             )
         } else {
-            rows = <tr></tr>;
+            headers = <tr></tr>;
         }
 
-        return rows;
+        return headers;
     }
 
     const getRows = () => {
@@ -28,12 +30,13 @@ function List(props) {
         if (props.entities && props.entities.length > 0) {
             rows = props.entities.map((entity, entityIndex) => {
                 return (
-                    <tr>
+                    <tr key={entityIndex}>
                         {
                             Object.keys(entity).map((property, propertyIndex) => {
-                                return (<td>{entity[property]}</td>);
+                                return (<td key={propertyIndex}>{entity[property]}</td>);
                             })
                         }
+                        <td className="tableActions"><button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entityIndex)}>Delete</button></td>
                     </tr>
                 )
             })
@@ -46,8 +49,7 @@ function List(props) {
 
   return (
     <div>
-        <h3>{props.title}</h3>
-        <table>
+        <table className="table table-striped table-bordered table-hover table-condensed">
             <thead>
                 {getHeaders()}
             </thead>

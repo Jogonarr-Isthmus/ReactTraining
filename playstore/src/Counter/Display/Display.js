@@ -3,7 +3,7 @@ import './Display.css';
 
 function Display(props) {
   return (
-    <div>Counter {props.counterType}: {props.counter}</div>
+    <div>Total: {props.counter}</div>
   );
 }
 

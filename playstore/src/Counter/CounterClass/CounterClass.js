@@ -21,11 +21,12 @@ class CounterClass extends React.Component {
   render() {
     return (
       <div>
+        <h3>Counter <small>Class</small></h3>
         <Button onClickFunction={this.incrementCounter} increment={1} />
         <Button onClickFunction={this.incrementCounter} increment={5} />
         <Button onClickFunction={this.incrementCounter} increment={10} />
         <Button onClickFunction={this.incrementCounter} increment={100} />
-        <Display counterType="Class" counter={this.state.counter} />
+        <Display counter={this.state.counter} />
       </div>
     );
   }

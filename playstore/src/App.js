@@ -14,9 +14,11 @@ function App(props) {
         <p>v{React.version}</p>
       </header>
       <div className="App-body">
-        <div>
-          <input type="checkbox" id="useClassComponent" name="useClassComponent" checked={useClassComponent} onChange={(e) => setUseClassComponent(!useClassComponent)} />
-          <label htmlFor="scales">Use Class Component</label>
+        <div class="checkbox">
+          <label htmlFor="useClassComponent">
+            <input type="checkbox" id="useClassComponent" name="useClassComponent" 
+              checked={useClassComponent} onChange={(e) => setUseClassComponent(!useClassComponent)} /> Use Class Component
+          </label>
         </div>
         <div className="row">
           <div className="col-sm-2">
@@ -27,6 +29,7 @@ function App(props) {
           </div>
         </div>
       </div>
+      <br />
     </div>
   );
 }

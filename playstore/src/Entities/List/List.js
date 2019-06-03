@@ -36,7 +36,10 @@ function List(props) {
                                 return (<td key={propertyIndex}>{entity[property]}</td>);
                             })
                         }
-                        <td className="tableActions"><button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entityIndex)}>Delete</button></td>
+                        <td className="tableActions">
+                            <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity, entityIndex)}>Edit</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity.Id)}>Delete</button>
+                        </td>
                     </tr>
                 )
             })
@@ -47,18 +50,23 @@ function List(props) {
         return rows;
     }
 
-  return (
-    <div>
-        <table className="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-                {getHeaders()}
-            </thead>
-            <tbody>
-                {getRows()}
-            </tbody>
-        </table>
-    </div>
-  );
+    return (
+        <div>
+            {props.entities && props.entities.length > 0
+                ? (
+                    <table className="table table-striped table-bordered table-hover table-condensed">
+                        <thead>
+                            {getHeaders()}
+                        </thead>
+                        <tbody>
+                            {getRows()}
+                        </tbody>
+                    </table>
+                )
+                : (<span>No records found...</span>)
+            }
+        </div>
+    );
 }
 
 export default List;

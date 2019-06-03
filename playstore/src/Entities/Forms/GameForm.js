@@ -1,69 +1,81 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './GameForm.css';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 function GameForm(props) {
-    const [name, setName] = useState('');
-    const [rating, setRating] = useState('');
-    const [type, setType] = useState('');
+    let entity = props.entity;
+    if (!entity.Name) {
+        entity = {
+            Name: '',
+            Rating: '',
+            Type: '',
+        }
+    }
+    return (
+        <Formik
+            initialValues={{ ...entity }}
+            validate={values => {
+                let errors = {};
 
-    const onInsert = () => {
-        const newEntity = {
-            Id: 0,
-            Name: name,
-            Rating: rating,
-            Type: type
-        };
-        props.onInsert(newEntity);
+                if (!values.Name) {
+                    errors.Name = 'Required';
+                }
 
-        setName('');
-        setRating('');
-        setType('');
-    };
+                if (!values.Rating) {
+                    errors.Rating = 'Required';
+                } else if (isNaN(values.Rating)) {
+                    errors.Rating = 'Invalid rating. Must be a number.';
+                }
 
-  return (
-    <div>
-        <form className="form form-horizontal form-compact">
-            <div className="form-group">
-                <label className="col-sm-2 control-label" htmlFor="Name">Name:</label>
-                <div className="col-sm-10 input-group">
-                    <input type="text" className="form-control" 
-                        id='Name'
-                        name='Name'
-                        placeholder='Name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}/>
-                </div>
-            </div>
-            <div className="form-group">
-                <label className="col-sm-2 control-label" htmlFor="Rating">Rating:</label>
-                <div className="col-sm-10 input-group">
-                    <input type="text" className="form-control" 
-                        id='Rating'
-                        name='Rating'
-                        placeholder='Rating'
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}/>
-                </div>
-            </div>
-            <div className="form-group">
-                <label className="col-sm-2 control-label" htmlFor="Type">Type:</label>
-                <div className="col-sm-10 input-group">
-                    <input type="text" className="form-control" 
-                        id='Type'
-                        name='Type'
-                        placeholder='Type'
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}/>
-                </div>
-            </div>
-            <br />
-            <div className="form-actions">
-                <button type="button" className="btn btn-sm btn-primary" onClick={onInsert}>Insert Game</button>
-            </div>
-        </form>
-        <br />
-    </div>
-  );
+                if (!values.Type) {
+                    errors.Type = 'Required';
+                }
+
+                return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+                if (!values.Id) {
+                    props.onInsert(values);
+                } else {
+                    props.onEdit(values);
+                }
+
+                setSubmitting(false);
+                props.onClose();
+            }}
+        >
+            {({ isSubmitting }) => (
+                <Form className="form form-horizontal form-compact">
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label" htmlFor="Name">Name:</label>
+                        <div className="col-sm-10 input-group">
+                            <Field className="form-control" name="Name" placeholder="Name" />
+                            <ErrorMessage name="Name" component="div" />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label" htmlFor="Rating">Rating:</label>
+                        <div className="col-sm-10 input-group">
+                            <Field className="form-control" type="Rating" name="Rating" placeholder="Rating" />
+                            <ErrorMessage name="Rating" component="div" />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-sm-2 control-label" htmlFor="Type">Type:</label>
+                        <div className="col-sm-10 input-group">
+                            <Field className="form-control" name="Type" placeholder="Type" />
+                            <ErrorMessage name="Type" component="div" />
+                        </div>
+                    </div>
+                    <div className="form-actions">
+                        {!entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Insert</button> : null}
+                        {entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Edit</button> : null}
+                        <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onClose()}>Cancel</button>
+                    </div>
+                </Form>
+            )}
+        </Formik>
+    );
 }
 
 export default GameForm;

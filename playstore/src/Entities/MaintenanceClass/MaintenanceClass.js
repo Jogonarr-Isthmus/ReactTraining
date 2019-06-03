@@ -7,56 +7,67 @@ import List from '../List/List.js';
 class MaintenanceClass extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
-            entities: this.props.entities
+            entities: this.props.entities,
+            formIsActive: false,
+            formEntity: {}
         };
     }
 
-    getMaxId = () => {
-        let maxId = 0;
+    insertEntity = (newEntity) => {
+        console.log('Insert new Entity to [' + this.props.entityName + 's].');
+        console.log('[' + this.props.entityName + 's]: ', this.state.entities);
 
-        this.state.entities.forEach(function (entity, entityIndex) {
-            if (entity.Id >= maxId) {
-                maxId = entity.Id;
-            }
+        let newId = 1;
+        if (this.state.entities && this.state.entities.length > 0) {
+            const entityIds = this.state.entities.map(entity => entity.Id);
+            newId = Math.max(...entityIds) + 1;
+        }
+
+        console.log('New Entity = ', newEntity);
+
+        let updatedEntities = this.state.entities;
+        updatedEntities.push({ Id: newId, ...newEntity });
+
+        this.setState({
+            entities: updatedEntities
         });
 
-        return maxId;
+        console.log('[' + this.props.entityName + 's]: ', this.state.entities);
     };
 
-    insertEntity = (newEntity) => {
-        if (newEntity.Name && newEntity.Name !== '') {
-            console.log('Insert new Entity to [' + this.props.entityName + 's].');
-
-            console.log('[' + this.props.entityName + 's]: ', this.state.entities);
-
-            let newId = this.getMaxId() + 1;
-            newEntity.Id = newId;
-
-            console.log('New Entity = ', newEntity);
-
-            let updatedEntities = this.state.entities;
-            updatedEntities.push(newEntity);
-                
-            this.setState({
-                entities: updatedEntities
-            });
-
-            console.log('[' + this.props.entityName + 's]: ', this.state.entities);
-        }
+    loadEditForm = (entity, index) => {
+        this.setState({
+            formIsActive: true,
+            formEntity: { ...entity, Index: index }
+        });
     };
 
-    deleteEntity = (index) => {
+    editEntity = (entity) => {
+        let { Index: index, ...entityToUpdate } = entity;
+
+        console.log('Edit existing Entity on [' + this.props.entityName + 's].');
+        console.log('[' + this.props.entityName + 's]: ', this.state.entities);
+        console.log('Entity = ', entityToUpdate);
+
+        let updatedEntities = [...this.state.entities];
+        updatedEntities[index] = entityToUpdate;
+
+        this.setState({
+            entities: updatedEntities
+        });
+
+        console.log('[' + this.props.entityName + 's]: ', this.state.entities);
+    };
+
+    deleteEntity = (id) => {
         console.log('Delete Entity from [' + this.props.entityName + 's].');
-
         console.log('[' + this.props.entityName + 's]: ', this.state.entities);
+        console.log('Id to delete = ', id);
 
-        console.log('Index to delete = ', index);
-        
-        if (index >= 0) {
-            let updatedEntities = this.state.entities;
-            updatedEntities.splice(index, 1);
+        if (id) {
+            let updatedEntities = [...this.state.entities].filter(entity => entity.Id !== id);
 
             this.setState({
                 entities: updatedEntities
@@ -66,24 +77,45 @@ class MaintenanceClass extends React.Component {
         console.log('[' + this.props.entityName + 's]: ', this.state.entities);
     };
 
-    render() {
+    onFormClose = () => {
+        this.setState({
+            formEntity: {},
+            formIsActive: false
+        });
+    };
+
+    getEntityForm = () => {
         let entityForm = '';
-        switch(this.props.entityName) {
+
+        switch (this.props.entityName) {
             case 'User':
-                entityForm = <UserForm onInsert={this.insertEntity}></UserForm>;
+                entityForm = <UserForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose}></UserForm>;
                 break;
             case 'Game':
-                entityForm = <GameForm onInsert={this.insertEntity}></GameForm>;
+                entityForm = <GameForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose}></GameForm>;
                 break;
             default:
                 entityForm = <div></div>;
         }
 
+        return entityForm;
+    };
+
+    render() {
         return (
             <div className="MaintenanceClass">
                 <h3>{this.props.entityName}s <small>Class</small></h3>
-                {entityForm}
-                <List entities={this.state.entities} onDelete={this.deleteEntity}></List>
+                {this.state.formIsActive
+                    ? this.getEntityForm()
+                    : (
+                        <div>
+                            <div style={{ paddingBottom: '10px' }}>
+                                <button className="btn btn-sm btn-success" onClick={() => this.setState({ formIsActive: true })}>+ New {this.props.entityName}</button>
+                            </div>
+                            <List entities={this.state.entities} onEdit={this.loadEditForm} onDelete={this.deleteEntity}></List>
+                        </div>
+                    )
+                }
             </div>
         );
     }

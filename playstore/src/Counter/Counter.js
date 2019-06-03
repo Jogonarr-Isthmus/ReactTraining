@@ -19,8 +19,4 @@ function Counter(props) {
   );
 }
 
-Counter.defaultProps = {
-  useClassComponent: true
-};
-
 export default Counter;

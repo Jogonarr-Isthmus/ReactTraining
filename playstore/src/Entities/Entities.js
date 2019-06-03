@@ -37,20 +37,4 @@ function Entities(props) {
   );
 }
 
-Entities.defaultProps = {
-  useClassComponent: true,
-  users: [
-    { Id: 1, Name: 'Jose', Email: 'jose@email.com', Password: 'j0s3' },
-    { Id: 2, Name: 'Pablo', Email: 'pablo@email.com', Password: 'p@bl0' },
-    { Id: 3, Name: 'Gonzalez', Email: 'gonzalez@email.com', Password: 'g0nz@l3z' },
-    { Id: 4, Name: 'Arrieta', Email: 'arrieta@email.com', Password: '@rr13t@' }
-  ],
-  games: [
-    { Id: 1, Name: 'Quake', Rating: '9.0', Type: 'FPS' },
-    { Id: 2, Name: 'COD', Rating: '9.5', Type: 'FPS' },
-    { Id: 3, Name: 'Mario Kart', Rating: '8.0', Type: 'Racing' },
-    { Id: 4, Name: 'Grim Fandango', Rating: '10.0', Type: 'Adventure' }
-  ]
-};
-
 export default Entities;

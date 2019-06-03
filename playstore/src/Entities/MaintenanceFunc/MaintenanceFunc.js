@@ -6,47 +6,56 @@ import List from '../List/List.js';
 
 function MaintenanceFunc(props) {
     const [entities, setEntities] = useState(props.entities);
-
-    const getMaxId = () => {
-        let maxId = 0;
-
-        entities.forEach(function (entity, entityIndex) {
-            if (entity.Id >= maxId) {
-                maxId = entity.Id;
-            }
-        });
-
-        return maxId;
-    };
+    const [formIsActive, setFormIsActive] = useState(false);
+    const [formEntity, setFormEntity] = useState({});
 
     const insertEntity = (newEntity) => {
         console.log('Insert new Entity to [' + props.entityName + 's].');
-
         console.log('[' + props.entityName + 's]: ', entities);
 
-        let newId = getMaxId() + 1;
-        newEntity.Id = newId;
+        let newId = 1;
+        if (entities && entities.length > 0) {
+            const entityIds = entities.map(entity => entity.Id);
+            newId = Math.max(...entityIds) + 1;
+        }
 
         console.log('New Entity = ', newEntity);
 
         let updatedEntities = entities;
-        updatedEntities.push(newEntity);
+        updatedEntities.push({ Id: newId, ...newEntity });
 
         setEntities(updatedEntities);
 
         console.log('[' + props.entityName + 's]: ', entities);
     };
 
-    const deleteEntity = (index) => {
-        console.log('Delete Entity from [' + props.entityName + 's].');
+    const loadEditForm = (entity, index) => {
+        setFormIsActive(true);
+        setFormEntity({ ...entity, Index: index });
+    };
+
+    const editEntity = (entity) => {
+        let { Index: index, ...entityToUpdate } = entity;
+
+        console.log('Edit existing Entity on [' + props.entityName + 's].');
+        console.log('[' + props.entityName + 's]: ', entities);
+        console.log('Entity = ', entityToUpdate);
+
+        let updatedEntities = [...entities];
+        updatedEntities[index] = entityToUpdate;
+
+        setEntities(updatedEntities);
 
         console.log('[' + props.entityName + 's]: ', entities);
+    };
 
-        console.log('Index to delete = ', index);
-        
-        if (index >= 0) {
-            let updatedEntities = entities;
-            updatedEntities.splice(index, 1);
+    const deleteEntity = (id) => {
+        console.log('Delete Entity from [' + props.entityName + 's].');
+        console.log('[' + props.entityName + 's]: ', entities);
+        console.log('Id to delete = ', id);
+
+        if (id) {
+            let updatedEntities = [...entities].filter(entity => entity.Id !== id);
 
             setEntities(updatedEntities);
         }
@@ -54,23 +63,42 @@ function MaintenanceFunc(props) {
         console.log('[' + props.entityName + 's]: ', entities);
     };
 
-    let entityForm = '';
-    switch(props.entityName) {
-        case 'User':
-            entityForm = <UserForm onInsert={insertEntity}></UserForm>;
-            break;
-        case 'Game':
-            entityForm = <GameForm onInsert={insertEntity}></GameForm>;
-            break;
-        default:
-            entityForm = <div></div>;
-    }
+    const onFormClose = () => {
+        setFormEntity({});
+        setFormIsActive(false);
+    };
+
+    const getEntityForm = () => {
+        let entityForm = '';
+
+        switch (props.entityName) {
+            case 'User':
+                entityForm = <UserForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose}></UserForm>;
+                break;
+            case 'Game':
+                entityForm = <GameForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose}></GameForm>;
+                break;
+            default:
+                entityForm = <div></div>;
+        }
+
+        return entityForm;
+    };
 
     return (
         <div className="MaintenanceFunc">
             <h3>{props.entityName}s <small>Func</small></h3>
-            {entityForm}
-            <List entities={entities} onDelete={deleteEntity}></List>
+            {formIsActive
+                ? getEntityForm()
+                : (
+                    <div>
+                        <div style={{ paddingBottom: '10px' }}>
+                            <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New {props.entityName}</button>
+                        </div>
+                        <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity}></List>
+                    </div>
+                )
+            }
         </div>
     );
 }

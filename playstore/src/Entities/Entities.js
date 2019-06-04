@@ -7,23 +7,31 @@ function Entities(props) {
   const getEntities = () => {
     if (props.useClassComponent) {
       return (
-        <div className="row">
-          <div className="col-sm-6">
-            <MaintenanceClass entityName="User" entities={props.users}></MaintenanceClass>
+        <div>
+          <div className="row">
+            <div className="col-sm-12">
+              <MaintenanceClass entityName="User" entities={props.users}></MaintenanceClass>
+            </div>
           </div>
-          <div className="col-sm-6">
-            <MaintenanceClass entityName="Game" entities={props.games}></MaintenanceClass>
+          <div className="row">
+            <div className="col-sm-12">
+              <MaintenanceClass entityName="Game" entities={props.games}></MaintenanceClass>
+            </div>
           </div>
         </div>
       )
     } else {
       return (
-        <div className="row">
-          <div className="col-sm-6">
-            <MaintenanceFunc entityName="User" entities={props.users}></MaintenanceFunc>
+        <div>
+          <div className="row">
+            <div className="col-sm-12">
+              <MaintenanceFunc entityName="User" entities={props.users}></MaintenanceFunc>
+            </div>
           </div>
-          <div className="col-sm-6">
-            <MaintenanceFunc entityName="Game" entities={props.games}></MaintenanceFunc>
+          <div className="row">
+            <div className="col-sm-12">
+              <MaintenanceFunc entityName="Game" entities={props.games}></MaintenanceFunc>
+            </div>
           </div>
         </div>
       )

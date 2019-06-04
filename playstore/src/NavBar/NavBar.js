@@ -24,6 +24,12 @@ function NavBar(props) {
                         <li className="nav-item">
                             <Link className="nav-link" to="/Entities/">All Entities</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Entities/Users/">Users</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Entities/Games/">Games</Link>
+                        </li>
                         {/* <li className="nav-item dropdown">
                             <button className="nav-link dropdown-toggle bg-dark" href="javascript:void(0)" id="navbarDropdown"
                                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

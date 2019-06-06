@@ -95,7 +95,7 @@ class Games extends React.Component {
                             <div className="MaintenanceHeader">
                                 <button className="btn btn-sm btn-success" onClick={() => this.setState({ formIsActive: true })}>+ New Games</button>
                             </div>
-                            <List entities={this.state.entities} onEdit={this.loadEditForm} onDelete={this.deleteEntity}></List>
+                            <List entities={this.state.entities} onEdit={this.loadEditForm} onDelete={this.deleteEntity} />
                         </div>
                     )
                 }

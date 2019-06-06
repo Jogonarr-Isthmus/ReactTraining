@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import Home from './Home/Home';
+import './App.css';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+
 import NavBar from './NavBar/NavBar';
+import Home from './Home/Home';
 import Counter from './Counter/Counter';
 import Entities from './Entities/Entities';
 import MaintenanceFunc from './Entities/MaintenanceFunc/MaintenanceFunc.js';
 import MaintenanceClass from './Entities/MaintenanceClass/MaintenanceClass.js';
-import './App.css';
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 function App(props) {
   const [useClassComponent, setUseClassComponent] = useState(props.useClassComponent);

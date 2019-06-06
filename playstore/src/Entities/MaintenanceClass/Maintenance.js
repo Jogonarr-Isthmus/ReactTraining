@@ -1,10 +1,10 @@
 import React from 'react';
-import './MaintenanceClass.css';
+import './Maintenance.css';
 import UserForm from '../Forms/UserForm.js';
 import GameForm from '../Forms/GameForm.js';
 import List from '../List/List.js';
 
-class MaintenanceClass extends React.Component {
+class Maintenance extends React.Component {
     constructor(props) {
         super(props);
 
@@ -89,10 +89,10 @@ class MaintenanceClass extends React.Component {
 
         switch (this.props.entityName) {
             case 'User':
-                entityForm = <UserForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose}></UserForm>;
+                entityForm = <UserForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose} />;
                 break;
             case 'Game':
-                entityForm = <GameForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose}></GameForm>;
+                entityForm = <GameForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose} />;
                 break;
             default:
                 entityForm = <div></div>;
@@ -103,16 +103,16 @@ class MaintenanceClass extends React.Component {
 
     render() {
         return (
-            <div className="MaintenanceClass">
+            <div className="Maintenance">
                 <h3>{this.props.entityName}s <small>Class</small></h3>
                 {this.state.formIsActive
                     ? this.getEntityForm()
                     : (
                         <div>
-                            <div style={{ paddingBottom: '10px' }}>
+                            <div className="MaintenanceHeader">
                                 <button className="btn btn-sm btn-success" onClick={() => this.setState({ formIsActive: true })}>+ New {this.props.entityName}</button>
                             </div>
-                            <List entities={this.state.entities} onEdit={this.loadEditForm} onDelete={this.deleteEntity}></List>
+                            <List entities={this.state.entities} onEdit={this.loadEditForm} onDelete={this.deleteEntity} />
                         </div>
                     )
                 }
@@ -121,4 +121,4 @@ class MaintenanceClass extends React.Component {
     }
 }
 
-export default MaintenanceClass;
+export default Maintenance;

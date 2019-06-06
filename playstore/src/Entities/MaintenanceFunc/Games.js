@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import './Maintenance.css';
 
-import List from './List/List.js';
-import Form from './Forms/EstateForm';
+import Form from '../Forms/GameForm';
+import List from '../List/List.js';
 
-function Estates(props) {
+function Games(props) {
     const [entities, setEntities] = useState(props.entities);
     const [formIsActive, setFormIsActive] = useState(false);
     const [formEntity, setFormEntity] = useState({});
 
     const insertEntity = (newEntity) => {
-        console.log('Insert new Entity to [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Insert new Entity to [Games].');
+        console.log('[Games]: ', entities);
 
         let newId = 1;
         if (entities && entities.length > 0) {
@@ -26,7 +26,7 @@ function Estates(props) {
 
         setEntities(updatedEntities);
 
-        console.log('[Estates]: ', entities);
+        console.log('[Games]: ', entities);
     };
 
     const loadEditForm = (entity, index) => {
@@ -39,8 +39,8 @@ function Estates(props) {
     const editEntity = (entity) => {
         let { Index: index, ...entityToUpdate } = entity;
 
-        console.log('Edit existing Entity on [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Edit existing Entity on [Games].');
+        console.log('[Games]: ', entities);
         console.log('Entity = ', entityToUpdate);
 
         let updatedEntities = [...entities];
@@ -48,12 +48,12 @@ function Estates(props) {
 
         setEntities(updatedEntities);
 
-        console.log('[Estates]: ', entities);
+        console.log('[Games]: ', entities);
     };
 
     const deleteEntity = (id) => {
-        console.log('Delete Entity from [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Delete Entity from [Games].');
+        console.log('[Games]: ', entities);
         console.log('Id to delete = ', id);
 
         if (id) {
@@ -62,7 +62,7 @@ function Estates(props) {
             setEntities(updatedEntities);
         }
 
-        console.log('[Estates]: ', entities);
+        console.log('[Games]: ', entities);
     };
 
     const onFormClose = () => {
@@ -72,13 +72,13 @@ function Estates(props) {
 
     return (
         <div className="Maintenance">
-            <h3>Estates <small>Maintenance</small></h3>
+            <h3>Games <small>Maintenance</small></h3>
             {formIsActive
                 ? <Form entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose} />
                 : (
                     <div>
                         <div className="MaintenanceHeader">
-                            <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New Estate</button>
+                            <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New Game</button>
                         </div>
                         <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity} />
                     </div>
@@ -88,17 +88,13 @@ function Estates(props) {
     );
 }
 
-Estates.defaultProps = {
+Games.defaultProps = {
     entities: [
-        {
-            Id: 1,
-            Code: 'N15',
-            Area: '160',
-            OwnerName: 'Pablo',
-            OwnerPhone: '83411578',
-            OwnerEmail: 'pgonzalez@isthmusit.com'
-        }
+        { Id: 1, Name: 'Quake', Rating: '9.0', Type: 'FPS' },
+        { Id: 2, Name: 'COD', Rating: '9.5', Type: 'FPS' },
+        { Id: 3, Name: 'Mario Kart', Rating: '8.0', Type: 'Racing' },
+        { Id: 4, Name: 'Grim Fandango', Rating: '10.0', Type: 'Adventure' }
     ],
 };
 
-export default Estates;
+export default Games;

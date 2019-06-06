@@ -1,11 +1,6 @@
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 15vmin;
-  pointer-events: none;
-}
-
-.App-logo-test {
-  height: 35vmin;
+  height: 5vmin;
   pointer-events: none;
 }
 

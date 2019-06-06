@@ -122,7 +122,7 @@ function Maintenance(props) {
                         <div className="MaintenanceHeader">
                             <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New {currrentEntity}</button>
                         </div>
-                        <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity}></List>
+                        <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity} />
                     </div>
                 )
             }

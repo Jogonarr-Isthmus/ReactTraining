@@ -1,5 +1,5 @@
 import React from 'react';
-import './GameForm.css';
+import './Form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 function GameForm(props) {

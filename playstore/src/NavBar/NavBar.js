@@ -15,20 +15,20 @@ function NavBar(props) {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
+                        <li className="nav-item">
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/Counter/">Counter</Link>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link className="nav-link" to="/Entities/">All Entities</Link>
+                        </li> */}
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Entities/Maintenance/Users/">Users</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/Entities/Users/">Users</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/Entities/Games/">Games</Link>
+                            <Link className="nav-link" to="/Entities/Maintenance/Games/">Games</Link>
                         </li>
                         {/* <li className="nav-item dropdown">
                             <button className="nav-link dropdown-toggle bg-dark" href="javascript:void(0)" id="navbarDropdown"

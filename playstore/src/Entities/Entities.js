@@ -1,7 +1,8 @@
 import React from 'react';
 import './Entities.css';
-import MaintenanceFunc from './MaintenanceFunc/MaintenanceFunc.js';
-import MaintenanceClass from './MaintenanceClass/MaintenanceClass.js';
+
+import MaintenanceFunc from './MaintenanceFunc/Maintenance';
+import MaintenanceClass from './MaintenanceClass/Maintenance';
 
 function Entities(props) {
   const getEntities = () => {

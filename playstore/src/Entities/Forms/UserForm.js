@@ -1,10 +1,10 @@
 import React from 'react';
-import './UserForm.css';
+import './Form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 function UserForm(props) {
     let entity = props.entity;
-    if (!entity.Name) {
+    if (!entity.Id) {
         entity = {
             Name: '',
             LastName: '',

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import './MaintenanceFunc.css';
+import './Maintenance.css';
+
+import List from '../List/List.js';
 import UserForm from '../Forms/UserForm.js';
 import GameForm from '../Forms/GameForm.js';
-import List from '../List/List.js';
 
-function MaintenanceFunc(props) {
+function Maintenance(props) {
     const [entities, setEntities] = useState(props.entities);
     const [formIsActive, setFormIsActive] = useState(false);
     const [formEntity, setFormEntity] = useState({});
@@ -73,10 +74,10 @@ function MaintenanceFunc(props) {
 
         switch (props.entityName) {
             case 'User':
-                entityForm = <UserForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose}></UserForm>;
+                entityForm = <UserForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose} />;
                 break;
             case 'Game':
-                entityForm = <GameForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose}></GameForm>;
+                entityForm = <GameForm entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose} />;
                 break;
             default:
                 entityForm = <div></div>;
@@ -86,16 +87,16 @@ function MaintenanceFunc(props) {
     };
 
     return (
-        <div className="MaintenanceFunc">
+        <div className="Maintenance">
             <h3>{props.entityName}s <small>Func</small></h3>
             {formIsActive
                 ? getEntityForm()
                 : (
                     <div>
-                        <div style={{ paddingBottom: '10px' }}>
+                        <div className="MaintenanceHeader">
                             <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New {props.entityName}</button>
                         </div>
-                        <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity}></List>
+                        <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity} />
                     </div>
                 )
             }
@@ -103,4 +104,4 @@ function MaintenanceFunc(props) {
     );
 }
 
-export default MaintenanceFunc;
+export default Maintenance;

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import './Maintenance.css';
 
-import List from './List/List.js';
-import Form from './Forms/EstateForm';
+import Form from '../Forms/UserForm';
+import List from '../List/List.js';
 
-function Estates(props) {
+function Users(props) {
     const [entities, setEntities] = useState(props.entities);
     const [formIsActive, setFormIsActive] = useState(false);
     const [formEntity, setFormEntity] = useState({});
 
     const insertEntity = (newEntity) => {
-        console.log('Insert new Entity to [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Insert new Entity to [Users].');
+        console.log('[Users]: ', entities);
 
         let newId = 1;
         if (entities && entities.length > 0) {
@@ -26,7 +26,7 @@ function Estates(props) {
 
         setEntities(updatedEntities);
 
-        console.log('[Estates]: ', entities);
+        console.log('[Users]: ', entities);
     };
 
     const loadEditForm = (entity, index) => {
@@ -39,8 +39,8 @@ function Estates(props) {
     const editEntity = (entity) => {
         let { Index: index, ...entityToUpdate } = entity;
 
-        console.log('Edit existing Entity on [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Edit existing Entity on [Users].');
+        console.log('[Users]: ', entities);
         console.log('Entity = ', entityToUpdate);
 
         let updatedEntities = [...entities];
@@ -48,12 +48,12 @@ function Estates(props) {
 
         setEntities(updatedEntities);
 
-        console.log('[Estates]: ', entities);
+        console.log('[Users]: ', entities);
     };
 
     const deleteEntity = (id) => {
-        console.log('Delete Entity from [Estates].');
-        console.log('[Estates]: ', entities);
+        console.log('Delete Entity from [Users].');
+        console.log('[Users]: ', entities);
         console.log('Id to delete = ', id);
 
         if (id) {
@@ -62,7 +62,7 @@ function Estates(props) {
             setEntities(updatedEntities);
         }
 
-        console.log('[Estates]: ', entities);
+        console.log('[Users]: ', entities);
     };
 
     const onFormClose = () => {
@@ -72,13 +72,13 @@ function Estates(props) {
 
     return (
         <div className="Maintenance">
-            <h3>Estates <small>Maintenance</small></h3>
+            <h3>Users <small>Maintenance</small></h3>
             {formIsActive
                 ? <Form entity={formEntity} onInsert={insertEntity} onEdit={editEntity} onClose={onFormClose} />
                 : (
                     <div>
                         <div className="MaintenanceHeader">
-                            <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New Estate</button>
+                            <button className="btn btn-sm btn-success" onClick={() => setFormIsActive(true)}>+ New User</button>
                         </div>
                         <List entities={entities} onEdit={loadEditForm} onDelete={deleteEntity} />
                     </div>
@@ -88,17 +88,18 @@ function Estates(props) {
     );
 }
 
-Estates.defaultProps = {
+Users.defaultProps = {
     entities: [
         {
             Id: 1,
-            Code: 'N15',
-            Area: '160',
-            OwnerName: 'Pablo',
-            OwnerPhone: '83411578',
-            OwnerEmail: 'pgonzalez@isthmusit.com'
+            Name: 'Jose Pablo',
+            LastName: 'Gonzalez Arrieta',
+            Email: 'pgonzalez@isthmusit.com',
+            Phone: '83411578',
+            Username: 'pablo',
+            Password: 'p@bl0'
         }
     ],
 };
 
-export default Estates;
+export default Users;

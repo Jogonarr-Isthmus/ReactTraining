@@ -84,7 +84,7 @@ function ReservationForm(props) {
                     <div className="form-group">
                         <label className="col-sm-2 control-label" htmlFor="Date">Date:</label>
                         <div className="col-sm-10 input-group">
-                            <Field className="form-control" name="Date" placeholder="Date" />
+                            <Field className="form-control" name="Date" placeholder="Date (dd/mm/yyyy)" />
                             <ErrorMessage name="Date" component="div" />
                         </div>
                     </div>

@@ -25,6 +25,8 @@ function EstateForm(props) {
 
                 if (!values.Area) {
                     errors.Area = 'Required';
+                } else if (isNaN(values.Area)) {
+                    errors.Area = 'Invalid Area. Must be a number.';
                 }
 
                 if (!values.OwnerName) {

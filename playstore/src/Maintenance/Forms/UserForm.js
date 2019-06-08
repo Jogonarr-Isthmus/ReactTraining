@@ -53,13 +53,14 @@ function UserForm(props) {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+
                 if (!values.Id) {
                     props.onInsert(values);
                 } else {
                     props.onEdit(values);
                 }
 
-                setSubmitting(false);
                 props.onClose();
             }}
         >

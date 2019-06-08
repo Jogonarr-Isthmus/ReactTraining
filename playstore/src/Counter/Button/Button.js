@@ -2,10 +2,14 @@ import React from 'react';
 import './Button.css';
 
 function Button(props) {
-  const handleClick = () => props.onClickFunction(props.increment);
+  const handleClick = () => props.onClick(props.increment);
+
   return (
-    <button type="button" className="btn btn-sm btn-primary" onClick={handleClick}>
-      +{props.increment}
+    <button type="button"
+      className={props.increment > 0 ? 'btn btn-sm btn-success' : 'btn btn-sm btn-danger'}
+      onClick={handleClick}
+    >
+      {props.increment > 0 ? '+' : ''}{props.increment}
     </button>
   );
 }

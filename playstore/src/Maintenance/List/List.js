@@ -37,7 +37,7 @@ function List(props) {
                             })
                         }
                         <td className="tableActions">
-                            <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity, entityIndex)}>Edit</button>
+                            <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity)}>Edit</button>
                             <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity.Id)}>Delete</button>
                         </td>
                     </tr>

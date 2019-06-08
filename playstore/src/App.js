@@ -1,41 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+import { logInSuccess } from './Reducers/auth';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import NavBar from './NavBar/NavBar';
+import Login from './Login/Login';
 import Home from './Home/Home';
 import Counter from './Counter/Counter';
-import UsersFunc from './Entities/MaintenanceFunc/Users';
-import GamesFunc from './Entities/MaintenanceFunc/Games';
-import UsersClass from './Entities/MaintenanceClass/Users';
-import GamesClass from './Entities/MaintenanceClass/Games';
+import Maintenance from './Maintenance/Maintenance';
 
-function App(props) {
-  const [useClassComponent, setUseClassComponent] = useState(props.useClassComponent);
+class App extends React.Component {
+  componentDidMount() {
+    let isLogged = localStorage.getItem('isLogged');
+    if (isLogged) {
+      let user = localStorage.getItem('user');
+      this.props.logInSuccess(user);
+    }
+  }
 
-  return (
-    <HashRouter>
-      <div className="App">
+  render() {
+    const PrivateRoute = ({ component: Component, render: Render, ...rest }) => {
+      let isLogged = localStorage.getItem('isLogged');
+      return (
+        <Route {...rest} render={(props) => {
+          return (
+            props.isLogged === true || isLogged
+              ? (Component ? <Component {...props} /> : Render())
+              : <Redirect to="/Login" />
+          );
+        }} />
+      );
+    };
+
+    return (
+      <div className="App" >
         <header className="App-header">
-          <NavBar useClassComponent={useClassComponent} onChange={setUseClassComponent} />
+          <NavBar />
         </header>
         <div className="App-body">
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/Home/" />} />
-            <Route path="/Home/" component={Home} />
-            <Route path="/Counter/" render={() => <Counter useClassComponent={useClassComponent} />} />
-            <Route exact path="/Entities/Maintenance/Users/" render={() => useClassComponent ? <UsersClass /> : <UsersFunc />} />
-            <Route exact path="/Entities/Maintenance/Games/" render={() => useClassComponent ? <GamesClass /> : <GamesFunc />} />
+            <Route exact path="/" render={() => <Redirect to="/Login" />} />
+            <Route path="/Login" component={Login} />
+            <PrivateRoute path="/Home" component={Home} />
+            <PrivateRoute path="/Counter" component={Counter} />
+            <PrivateRoute path="/Users" render={() => <Maintenance entityName="users" />} />
+            <PrivateRoute path="/Games" render={() => <Maintenance entityName="games" />} />
           </Switch>
         </div>
         <br />
       </div>
-    </HashRouter>
-  );
+    );
+  }
 }
 
-App.defaultProps = {
-  useClassComponent: false
-};
+function mapStateToProps(state) {
+  return {
+    isLogged: state.auth.isLogged
+  };
+}
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    logInSuccess
+  }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

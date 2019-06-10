@@ -2,6 +2,10 @@ import React from 'react';
 import './Form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+import { insert, edit } from '../../Reducers/entities';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 function GameForm(props) {
     let entity = props.entity;
     if (!entity.Name) {
@@ -34,13 +38,14 @@ function GameForm(props) {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+
                 if (!values.Id) {
-                    props.onInsert(values);
+                    props.insert(props.entityName, values);
                 } else {
-                    props.onEdit(values);
+                    props.edit(props.entityName, values);
                 }
 
-                setSubmitting(false);
                 props.onClose();
             }}
         >
@@ -78,4 +83,18 @@ function GameForm(props) {
     );
 }
 
-export default GameForm;
+function mapStateToProps(state) {
+    return null;
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        insert,
+        edit
+    }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GameForm);

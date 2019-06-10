@@ -1,8 +1,6 @@
 import React from 'react';
 import './Maintenance.css';
 
-import { insert, edit, remove } from '../Reducers/entities';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import UserForm from './Forms/UserForm';
@@ -19,43 +17,32 @@ class Maintenance extends React.Component {
         };
     }
 
-    insertEntity = (entity) => {
-        this.props.insert(this.props.entityName, entity);
-    };
-
-    loadEditForm = (entity) => {
+    onFormLoad = (entity) => {
         this.setState({
             formIsActive: true,
             formEntity: entity
         });
     };
 
-    editEntity = (entity) => {
-        this.props.edit(this.props.entityName, entity);
-    };
-
-    deleteEntity = (id) => {
-        this.props.remove(this.props.entityName, id);
-    };
-
     onFormClose = () => {
         this.setState({
-            formEntity: {},
-            formIsActive: false
+            formIsActive: false,
+            formEntity: {}
         });
     };
 
-    capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+    capitalizeEntityName = () => {
+        let entityName = this.props.entityName;
+        return entityName.charAt(0).toUpperCase() + entityName.slice(1);
     };
 
     getFormHtml = () => {
         switch (this.props.entityName) {
             case 'users':
-                return <UserForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose} />;
+                return <UserForm entityName={this.props.entityName} entity={this.state.formEntity} onClose={this.onFormClose} />;
 
             case 'games':
-                return <GameForm entity={this.state.formEntity} onInsert={this.insertEntity} onEdit={this.editEntity} onClose={this.onFormClose} />
+                return <GameForm entityName={this.props.entityName} entity={this.state.formEntity} onClose={this.onFormClose} />
 
             default:
                 return <div>Form not defined yet.</div>
@@ -65,15 +52,15 @@ class Maintenance extends React.Component {
     render() {
         return (
             <div className="Maintenance">
-                <h3>{this.capitalizeFirstLetter(this.props.entityName)} <small>Maintenance</small></h3>
+                <h3>{this.capitalizeEntityName()} <small>Maintenance</small></h3>
                 {this.state.formIsActive
                     ? this.getFormHtml()
                     : (
                         <div>
                             <div className="MaintenanceHeader">
-                                <button className="btn btn-sm btn-success" onClick={() => this.setState({ formIsActive: true })}>+ New {this.capitalizeFirstLetter(this.props.entityName)}</button>
+                                <button className="btn btn-sm btn-success" onClick={() => this.onFormLoad({})}>+ New</button>
                             </div>
-                            <List entities={this.props.entities[this.props.entityName]} onEdit={this.loadEditForm} onDelete={this.deleteEntity} />
+                            <List entities={this.props.entities[this.props.entityName]} onEdit={this.onFormLoad} />
                         </div>
                     )
                 }
@@ -89,15 +76,6 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        insert,
-        edit,
-        remove
-    }, dispatch);
-}
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(Maintenance);

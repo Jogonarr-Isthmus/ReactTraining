@@ -32,13 +32,16 @@ class Login extends React.Component {
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(false);
 
-                    if (values.Email === 'pablo@email.com' && values.Password === '123') {
-                        values.Name = 'Pablo';
+                    const loggedUser = this.props.users.find(user => {
+                        return (user.Email === values.Email || user.Username === values.Email) && user.Password === values.Password;
+                    });
 
-                        this.props.logInSuccess(values);
+                    if (loggedUser) {
+                        const { Password, ...loggedUserWithoutPassword } = loggedUser;
+                        this.props.logInSuccess(loggedUserWithoutPassword);
                         history.push('/Home');
                     } else {
-                        this.props.logInError();
+                        this.props.logInError('Información incorrecta');
                     }
                 }}
             >
@@ -47,7 +50,7 @@ class Login extends React.Component {
                         <h3>Login to React Practice Site - Isthmus</h3>
                         <div className="form-group">
                             <div className="input-group">
-                                <Field className="form-control" type="Email" name="Email" placeholder="Email" />
+                                <Field className="form-control" name="Email" placeholder="Username or Email" />
                                 <ErrorMessage name="Email" component="div" />
                             </div>
                         </div>
@@ -57,6 +60,7 @@ class Login extends React.Component {
                                 <ErrorMessage name="Password" component="div" />
                             </div>
                         </div>
+                        <p style={{ color: 'red' }}>{this.props.logginError}</p>
                         <div className="form-actions">
                             <button type="submit" className="btn btn-sm btn-secondary" disabled={isSubmitting}>Login</button>
                         </div>
@@ -71,7 +75,8 @@ function mapStateToProps(state) {
     return {
         isLogged: state.auth.isLogged,
         loggedUser: state.auth.loggedUser,
-        logginError: state.auth.logginError
+        logginError: state.auth.logginError,
+        users: state.entities.users
     };
 }
 

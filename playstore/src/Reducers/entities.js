@@ -9,6 +9,15 @@ const initialState = {
             Phone: '83411578',
             Username: 'pablo',
             Password: 'p@bl0'
+        },
+        {
+            Id: 2,
+            Name: 'Maria del Milagro',
+            LastName: 'Campos Chacon',
+            Email: 'mila@email.com',
+            Phone: '71066940',
+            Username: 'mila',
+            Password: 'm1l@'
         }
     ],
     games: [

@@ -39,11 +39,11 @@ export const logOut = () => {
     };
 };
 
-export const logInError = () => {
+export const logInError = (error) => {
     return dispatch => {
         dispatch({
             type: 'logInError',
-            error: 'Hay un problema en su info'
+            error: error || 'Hay un problema en su info'
         });
     };
 };

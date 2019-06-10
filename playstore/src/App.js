@@ -42,7 +42,7 @@ class App extends React.Component {
         </header>
         <div className="App-body">
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/Login" />} />
+            <Route exact path="/" render={() => <Redirect to="/Home" />} />
             <Route path="/Login" component={Login} />
             <PrivateRoute path="/Home" component={Home} />
             <PrivateRoute path="/Counter" component={Counter} />

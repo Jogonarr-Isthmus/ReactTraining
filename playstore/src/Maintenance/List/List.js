@@ -1,6 +1,10 @@
 import React from 'react';
 import './List.css';
 
+import { remove } from '../../Reducers/entities';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 function List(props) {
     const getHeaders = () => {
         let headers;
@@ -38,7 +42,7 @@ function List(props) {
                         }
                         <td className="tableActions">
                             <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity)}>Edit</button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity.Id)}>Delete</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={() => props.remove(props.entityName, entity.Id)}>Delete</button>
                         </td>
                     </tr>
                 )
@@ -69,4 +73,17 @@ function List(props) {
     );
 }
 
-export default List;
+function mapStateToProps(state) {
+    return null;
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        remove
+    }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(List);

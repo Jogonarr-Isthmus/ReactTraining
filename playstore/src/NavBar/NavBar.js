@@ -26,10 +26,19 @@ function NavBar(props) {
                             <Link className="nav-link" to="/Counter/">Counter</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/Users/">Users</Link>
+                            <Link className="nav-link" to="/Contador/">Contador</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/Games/">Games</Link>
+                            <Link className="nav-link" to="/UsersRedux/">Users Redux</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/GamesRedux/">Games Redux</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/UsersAxios/">Users Axios</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/GamesAxios/">Games Axios</Link>
                         </li>
                         <li className="nav-item">
                             <button className="btn-link nav-link nav-link-button" type="button" onClick={() => props.logOut()}>Log Off</button>

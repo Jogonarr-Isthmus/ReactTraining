@@ -73,10 +73,6 @@ function List(props) {
     );
 }
 
-function mapStateToProps(state) {
-    return null;
-}
-
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         remove
@@ -84,6 +80,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(List);

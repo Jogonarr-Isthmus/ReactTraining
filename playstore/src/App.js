@@ -10,20 +10,23 @@ import NavBar from './NavBar/NavBar';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Counter from './Counter/Counter';
-import Maintenance from './Maintenance/Maintenance';
+import MaintenanceRedux from './MaintenanceRedux/Maintenance';
+import MaintenanceAxios from './MaintenanceAxios/Maintenance';
+import Contador from './Shared/Contador';
 
 class App extends React.Component {
   componentDidMount() {
     let isLogged = localStorage.getItem('isLogged');
     if (isLogged) {
       let user = localStorage.getItem('user');
-      this.props.logInSuccess(user);
+      this.props.logInSuccess(JSON.parse(user));
     }
   }
 
   render() {
     const PrivateRoute = ({ component: Component, render: Render, ...rest }) => {
       let isLogged = localStorage.getItem('isLogged');
+
       return (
         <Route {...rest} render={(props) => {
           return (
@@ -46,8 +49,11 @@ class App extends React.Component {
             <Route path="/Login" component={Login} />
             <PrivateRoute path="/Home" component={Home} />
             <PrivateRoute path="/Counter" component={Counter} />
-            <PrivateRoute path="/Users" render={() => <Maintenance entityName="users" />} />
-            <PrivateRoute path="/Games" render={() => <Maintenance entityName="games" />} />
+            <PrivateRoute path="/Contador" component={Contador} />
+            <PrivateRoute path="/UsersRedux" render={() => <MaintenanceRedux entityName="users" />} />
+            <PrivateRoute path="/GamesRedux" render={() => <MaintenanceRedux entityName="games" />} />
+            <PrivateRoute path="/UsersAxios" render={() => <MaintenanceAxios entityName="users" />} />
+            <PrivateRoute path="/GamesAxios" render={() => <MaintenanceAxios entityName="games" />} />
           </Switch>
         </div>
         <br />

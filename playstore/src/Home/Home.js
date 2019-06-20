@@ -8,7 +8,7 @@ function Home(props) {
         <div>
             <h1>Home</h1>
             <p>
-                Welcome <b>{props.loggedUser.Name}</b>!<br />
+                Welcome <b>{props.loggedUser.name}</b>!<br />
                 This is a practice project for React training...
             </p>
         </div>

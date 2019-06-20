@@ -1,6 +1,7 @@
 import React from 'react';
 import './Login.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Axios from 'axios';
 
 import { logInSuccess, logInError } from '../Reducers/auth';
 import { bindActionCreators } from 'redux';
@@ -13,18 +14,18 @@ class Login extends React.Component {
         return (
             <Formik className="Login"
                 initialValues={{
-                    Email: '',
-                    Password: ''
+                    email: '',
+                    password: ''
                 }}
                 validate={values => {
                     let errors = {};
 
-                    if (!values.Email) {
-                        errors.Email = 'Required';
+                    if (!values.email) {
+                        errors.email = 'Required';
                     }
 
-                    if (!values.Password) {
-                        errors.Password = 'Required';
+                    if (!values.password) {
+                        errors.password = 'Required';
                     }
 
                     return errors;
@@ -32,17 +33,17 @@ class Login extends React.Component {
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(false);
 
-                    const loggedUser = this.props.users.find(user => {
-                        return (user.Email === values.Email || user.Username === values.Email) && user.Password === values.Password;
+                    const data = {
+                        user: { ...values }
+                    };
+                    Axios.post('http://kyrapps.com:4300/api/login', data).then((response) => {
+                        if (response.data.token) {
+                            this.props.logInSuccess(response.data.user);
+                            history.push('/Home');
+                        } else {
+                            this.props.logInError('Informacion incorrecta');
+                        }
                     });
-
-                    if (loggedUser) {
-                        const { Password, ...loggedUserWithoutPassword } = loggedUser;
-                        this.props.logInSuccess(loggedUserWithoutPassword);
-                        history.push('/Home');
-                    } else {
-                        this.props.logInError('Información incorrecta');
-                    }
                 }}
             >
                 {({ isSubmitting }) => (
@@ -50,14 +51,14 @@ class Login extends React.Component {
                         <h3>Login to React Practice Site - Isthmus</h3>
                         <div className="form-group">
                             <div className="input-group">
-                                <Field className="form-control" name="Email" placeholder="Username or Email" />
-                                <ErrorMessage name="Email" component="div" />
+                                <Field className="form-control" name="email" placeholder="Email" />
+                                <ErrorMessage name="email" component="div" />
                             </div>
                         </div>
                         <div className="form-group">
                             <div className="input-group">
-                                <Field className="form-control" type="Password" name="Password" placeholder="Password" />
-                                <ErrorMessage name="Password" component="div" />
+                                <Field className="form-control" type="password" name="password" placeholder="Password" />
+                                <ErrorMessage name="password" component="div" />
                             </div>
                         </div>
                         <p style={{ color: 'red' }}>{this.props.logginError}</p>

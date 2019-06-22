@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import FormActions from './FormActions';
 import './Form.css';
 
-class UserForm extends React.Component {
+class HouseForm extends React.Component {
     render() {
         let entity = this.props.entity;
         if (!entity._id) {
             entity = {
                 studentID: this.props.loggedUser.studentID,
                 _id: undefined,
-                name: '',
-                email: '',
-                password: '',
+                owner: '',
+                price: '',
+                location: '',
             }
         }
         return (
@@ -23,18 +23,18 @@ class UserForm extends React.Component {
                 validate={values => {
                     let errors = {};
 
-                    if (!values.name) {
-                        errors.name = 'Required';
+                    if (!values.owner) {
+                        errors.owner = 'Required';
                     }
 
-                    if (!values.email) {
-                        errors.email = 'Required';
-                    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-                        errors.email = 'Invalid email address';
+                    if (!values.price) {
+                        errors.price = 'Required';
+                    } else if (isNaN(values.price)) {
+                        errors.price = 'Invalid price. Must be a number.';
                     }
 
-                    if (!values.password) {
-                        errors.password = 'Required';
+                    if (!values.location) {
+                        errors.location = 'Required';
                     }
 
                     return errors;
@@ -68,24 +68,24 @@ class UserForm extends React.Component {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 control-label" htmlFor="name">Name:</label>
+                            <label className="col-sm-2 control-label" htmlFor="owner">Owner:</label>
                             <div className="col-sm-10 input-group">
-                                <Field className="form-control" name="name" placeholder="name" />
-                                <ErrorMessage name="name" component="div" />
+                                <Field className="form-control" name="owner" placeholder="Owner" />
+                                <ErrorMessage name="owner" component="div" />
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 control-label" htmlFor="email">Email:</label>
+                            <label className="col-sm-2 control-label" htmlFor="price">Price:</label>
                             <div className="col-sm-10 input-group">
-                                <Field className="form-control" type="email" name="email" placeholder="email" />
-                                <ErrorMessage name="email" component="div" />
+                                <Field className="form-control" name="price" placeholder="Price" />
+                                <ErrorMessage name="price" component="div" />
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 control-label" htmlFor="password">Password:</label>
+                            <label className="col-sm-2 control-label" htmlFor="location">Location:</label>
                             <div className="col-sm-10 input-group">
-                                <Field className="form-control" type="password" name="password" placeholder="password" />
-                                <ErrorMessage name="password" component="div" />
+                                <Field className="form-control" name="location" placeholder="Location" />
+                                <ErrorMessage name="location" component="div" />
                             </div>
                         </div>
                         <FormActions isNew={!entity._id} isSubmitting={isSubmitting} onClose={this.props.onClose} />
@@ -105,4 +105,4 @@ function mapStateToProps(state) {
 export default connect(
     mapStateToProps,
     null
-)(UserForm);
+)(HouseForm);

@@ -11,7 +11,7 @@ import Login from './Login/Login';
 import Home from './Home/Home';
 import Counter from './Counter/Counter';
 import MaintenanceRedux from './MaintenanceRedux/Maintenance';
-import MaintenanceAxios from './MaintenanceAxios/Maintenance';
+import { UserMaintenance, GameMaintenance } from './MaintenanceAxios/Maintenance';
 import Contador from './Shared/Contador';
 
 class App extends React.Component {
@@ -52,8 +52,8 @@ class App extends React.Component {
             <PrivateRoute path="/Contador" component={Contador} />
             <PrivateRoute path="/UsersRedux" render={() => <MaintenanceRedux entityName="users" />} />
             <PrivateRoute path="/GamesRedux" render={() => <MaintenanceRedux entityName="games" />} />
-            <PrivateRoute path="/UsersAxios" render={() => <MaintenanceAxios entityName="users" />} />
-            <PrivateRoute path="/GamesAxios" render={() => <MaintenanceAxios entityName="games" />} />
+            <PrivateRoute path="/UsersAxios" component={UserMaintenance} />
+            <PrivateRoute path="/GamesAxios" component={GameMaintenance} />
           </Switch>
         </div>
         <br />

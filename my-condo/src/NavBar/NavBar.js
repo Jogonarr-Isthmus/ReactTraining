@@ -3,53 +3,73 @@ import './NavBar.css';
 import logo from '../logo.png';
 import { Link } from 'react-router-dom';
 
+import { logOut } from '../Reducers/auth';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 function NavBar(props) {
+    const NavBarHtml = () => {
+        return (
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="navbar-brand">
+                    <img src={logo} className="App-logo" alt="MyCondo" />
+                </div>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarText">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Home">Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Maintenance/Users/">Users</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Maintenance/Houses/">Houses</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Maintenance/Amenities/">Amenities</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/Maintenance/Reservations/">Reservations</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/About/">About</Link>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn-link nav-link nav-link-button" type="button" onClick={() => props.logOut()}>Log Off</button>
+                        </li>
+                    </ul>
+                    <span className="navbar-text">
+                        <small>v{props.version}</small>
+                    </span>
+                </div>
+            </nav>
+        )
+    };
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div className="navbar-brand">
-                <img src={logo} className="App-logo" alt="MyCondo" />
-            </div>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarText">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">Home</Link>
-                    </li>
-                    {/* <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Maintenance
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <Link className="dropdown-item" to="/Maintenance/Users/">Users</Link>
-                            <Link className="dropdown-item" to="/Maintenance/Estates/">Estates</Link>
-                            <Link className="dropdown-item" to="/Maintenance/Amenities/">Amenities</Link>
-                            <Link className="dropdown-item" to="/Maintenance/Reservations/">Reservations</Link>
-                        </div>
-                    </li> */}
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Maintenance/Users/">Users</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Maintenance/Estates/">Estates</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Maintenance/Amenities/">Amenities</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Maintenance/Reservations/">Reservations</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/About/">About</Link>
-                    </li>
-                </ul>
-                <span className="navbar-text">
-                    <small>v1.0</small>
-                </span>
-            </div>
-        </nav>
+        <div className="NavBar">
+            {props.isLogged ? NavBarHtml() : null}
+        </div>
     );
 }
 
-export default NavBar;
+function mapStateToProps(state) {
+    return {
+        version: state.app.version,
+        isLogged: state.auth.isLogged
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        logOut
+    }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NavBar);

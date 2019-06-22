@@ -1,18 +1,43 @@
 import React from 'react';
 import './App.css';
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+import { logInSuccess } from './Reducers/auth';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import NavBar from './NavBar/NavBar';
+import Login from './Login/Login';
 import Home from './Home/Home';
-import Users from './Maintenance/Users';
-import Estates from './Maintenance/Estates';
-import Amenities from './Maintenance/Amenities';
-import Reservations from './Maintenance/Reservations';
+import { UsersMaintenance, HousesMaintenance } from './Maintenance/MaintenanceAxios';
+import { AmenitiesMaintenance, ReservationsMaintenance } from './Maintenance/MaintenanceRedux';
 import About from './About/About';
 
-function App() {
-  return (
-    <HashRouter>
+class App extends React.Component {
+  componentDidMount() {
+    let isLogged = localStorage.getItem('isLogged');
+    if (isLogged) {
+      let user = localStorage.getItem('user');
+      this.props.logInSuccess(JSON.parse(user));
+    }
+  }
+
+  render() {
+    const PrivateRoute = ({ component: Component, render: Render, ...rest }) => {
+      let isLogged = localStorage.getItem('isLogged');
+
+      return (
+        <Route {...rest} render={(props) => {
+          return (
+            props.isLogged === true || isLogged
+              ? (Component ? <Component {...props} /> : Render())
+              : <Redirect to="/Login" />
+          );
+        }} />
+      );
+    };
+
+    return (
       <div className="App">
         <header className="App-header">
           <NavBar />
@@ -20,18 +45,34 @@ function App() {
         <div className="App-body">
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/Home/" />} />
-            <Route exact path="/Home/" component={Home} />
-            <Route exact path="/Maintenance/Users/" component={Users} />
-            <Route exact path="/Maintenance/Estates/" component={Estates} />
-            <Route exact path="/Maintenance/Amenities/" component={Amenities} />
-            <Route exact path="/Maintenance/Reservations/" component={Reservations} />
-            <Route exact path="/About/" component={About} />
+            <Route path="/Login" component={Login} />
+            <PrivateRoute exact path="/Home/" component={Home} />
+            <PrivateRoute exact path="/Maintenance/Users/" component={UsersMaintenance} />
+            <PrivateRoute exact path="/Maintenance/Houses/" component={HousesMaintenance} />
+            <PrivateRoute exact path="/Maintenance/Amenities/" component={AmenitiesMaintenance} />
+            <PrivateRoute exact path="/Maintenance/Reservations/" component={ReservationsMaintenance} />
+            <PrivateRoute exact path="/About/" component={About} />
           </Switch>
         </div>
         <br />
       </div>
-    </HashRouter>
-  );
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    isLogged: state.auth.isLogged
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    logInSuccess
+  }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

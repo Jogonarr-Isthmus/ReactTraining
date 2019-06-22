@@ -2,6 +2,10 @@ import React from 'react';
 import './List.css';
 
 function List(props) {
+    const capitalizeHeader = (header) => {
+        return header.charAt(0).toUpperCase() + header.slice(1);
+    };
+
     const getHeaders = () => {
         let headers;
 
@@ -11,7 +15,7 @@ function List(props) {
                 <tr>
                     {
                         Object.keys(entity).map((property, propertyIndex) => {
-                            return (<th key={propertyIndex}>{property}</th>);
+                            return (<th key={propertyIndex}>{capitalizeHeader(property)}</th>);
                         })
                     }
                     <th>Actions</th>
@@ -37,8 +41,8 @@ function List(props) {
                             })
                         }
                         <td className="tableActions">
-                            <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity, entityIndex)}>Edit</button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity.Id)}>Delete</button>
+                            <button type="button" className="btn btn-sm btn-primary" onClick={() => props.onEdit(entity)}>Edit</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity._id || entity.Id)}>Delete</button>
                         </td>
                     </tr>
                 )

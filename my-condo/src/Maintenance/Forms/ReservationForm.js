@@ -1,13 +1,15 @@
 import React from 'react';
-import './Form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+import FormActions from './FormActions';
+import './Form.css';
 
 function ReservationForm(props) {
     let entity = props.entity;
     if (!entity.Id) {
         entity = {
-            Estate: '',
-            Amenitie: '',
+            House: '',
+            Amenity: '',
             Reservation: '',
             Date: ''
         }
@@ -18,12 +20,12 @@ function ReservationForm(props) {
             validate={values => {
                 let errors = {};
 
-                if (!values.Estate) {
-                    errors.Estate = 'Required';
+                if (!values.House) {
+                    errors.House = 'Required';
                 }
 
-                if (!values.Amenitie) {
-                    errors.Amenitie = 'Required';
+                if (!values.Amenity) {
+                    errors.Amenity = 'Required';
                 }
 
                 if (!values.Reservation) {
@@ -61,17 +63,17 @@ function ReservationForm(props) {
             {({ isSubmitting }) => (
                 <Form className="form form-horizontal form-compact">
                     <div className="form-group">
-                        <label className="col-sm-2 control-label" htmlFor="Estate">Estate:</label>
+                        <label className="col-sm-2 control-label" htmlFor="House">House:</label>
                         <div className="col-sm-10 input-group">
-                            <Field className="form-control" name="Estate" placeholder="Estate" />
-                            <ErrorMessage name="Estate" component="div" />
+                            <Field className="form-control" name="House" placeholder="House" />
+                            <ErrorMessage name="House" component="div" />
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-sm-2 control-label" htmlFor="Amenitie">Amenitie:</label>
+                        <label className="col-sm-2 control-label" htmlFor="Amenity">Amenity:</label>
                         <div className="col-sm-10 input-group">
-                            <Field className="form-control" name="Amenitie" placeholder="Amenitie" />
-                            <ErrorMessage name="Amenitie" component="div" />
+                            <Field className="form-control" name="Amenity" placeholder="Amenity" />
+                            <ErrorMessage name="Amenity" component="div" />
                         </div>
                     </div>
                     <div className="form-group">
@@ -88,11 +90,7 @@ function ReservationForm(props) {
                             <ErrorMessage name="Date" component="div" />
                         </div>
                     </div>
-                    <div className="form-actions">
-                        {!entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Insert</button> : null}
-                        {entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Edit</button> : null}
-                        <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onClose()}>Cancel</button>
-                    </div>
+                    <FormActions isNew={!entity.Id} isSubmitting={isSubmitting} onClose={props.onClose} />
                 </Form>
             )}
         </Formik>

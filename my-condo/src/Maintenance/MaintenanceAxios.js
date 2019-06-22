@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 
 import UserForm from './Forms/UserForm';
-import GameForm from './Forms/GameForm';
+import HouseForm from './Forms/HouseForm';
 import List from './List/List';
 
 class Maintenance extends React.Component {
@@ -146,8 +146,8 @@ class Maintenance extends React.Component {
             case 'users':
                 return <UserForm entity={this.state.formEntity} onInsert={this.onInsert} onEdit={this.onEdit} onClose={this.onFormClose} />;
 
-            case 'games':
-                return <GameForm entity={this.state.formEntity} onInsert={this.onInsert} onEdit={this.onEdit} onClose={this.onFormClose} />
+            case 'houses':
+                return <HouseForm entity={this.state.formEntity} onInsert={this.onInsert} onEdit={this.onEdit} onClose={this.onFormClose} />
 
             default:
                 return <div>Form not defined yet.</div>
@@ -182,24 +182,24 @@ function mapStateToPropsAuth(state) {
 
 function mapStateToPropsUsers(state) {
     return {
+        loggedUser: state.auth.loggedUser,
         entityName: 'users'
     };
 }
 
-function mapStateToPropsGames(state) {
+function mapStateToPropsHouses(state) {
     return {
-        entityName: 'games'
+        loggedUser: state.auth.loggedUser,
+        entityName: 'houses'
     };
 }
 
-const UserMaintenance = connect(
-    mapStateToPropsAuth,
+const UsersMaintenance = connect(
     mapStateToPropsUsers
 )(Maintenance);
 
-const GameMaintenance = connect(
-    mapStateToPropsAuth,
-    mapStateToPropsGames
+const HousesMaintenance = connect(
+    mapStateToPropsHouses
 )(Maintenance);
 
 const DefaultMaintenance = connect(
@@ -208,6 +208,6 @@ const DefaultMaintenance = connect(
 
 export default DefaultMaintenance;
 export {
-    UserMaintenance,
-    GameMaintenance
+    UsersMaintenance,
+    HousesMaintenance
 };

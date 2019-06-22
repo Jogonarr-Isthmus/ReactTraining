@@ -1,8 +1,10 @@
 import React from 'react';
-import './Form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-function AmenitiesForm(props) {
+import FormActions from './FormActions';
+import './Form.css';
+
+function AmenityForm(props) {
     let entity = props.entity;
     if (!entity.Id) {
         entity = {
@@ -53,15 +55,11 @@ function AmenitiesForm(props) {
                             <ErrorMessage name="Description" component="div" />
                         </div>
                     </div>
-                    <div className="form-actions">
-                        {!entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Insert</button> : null}
-                        {entity.Id ? <button type="submit" className="btn btn-sm btn-primary" disabled={isSubmitting}>Edit</button> : null}
-                        <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onClose()}>Cancel</button>
-                    </div>
+                    <FormActions isNew={!entity.Id} isSubmitting={isSubmitting} onClose={props.onClose} />
                 </Form>
             )}
         </Formik>
     );
 }
 
-export default AmenitiesForm;
+export default AmenityForm;

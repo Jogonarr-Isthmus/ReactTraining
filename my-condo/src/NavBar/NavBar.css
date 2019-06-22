@@ -1,0 +1,9 @@
+.App-logo {
+    /* height: 30px; */
+    pointer-events: none;
+}
+
+.nav-link-button {
+    background-color: transparent;
+    border: none;
+}

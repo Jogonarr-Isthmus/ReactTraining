@@ -42,7 +42,7 @@ class Maintenance extends React.Component {
 
     onListRefresh = () => {
         if (this.props.loggedUser.studentID) {
-            const url = 'http://kyrapps.com:4300/api/' + this.state.entityName + '?studentID=' + this.props.loggedUser.studentID;
+            const url = this.props.baseApiUrl + this.state.entityName + '?studentID=' + this.props.loggedUser.studentID;
 
             Axios.get(url)
                 .then(response => {
@@ -65,7 +65,7 @@ class Maintenance extends React.Component {
             const data = {
                 [this.singularizeEntityName()]: { ...entity }
             };
-            const url = 'http://kyrapps.com:4300/api/' + this.state.entityName + '?studentID=' + this.props.loggedUser.studentID;
+            const url = this.props.baseApiUrl + this.state.entityName + '?studentID=' + this.props.loggedUser.studentID;
 
             Axios.post(url, data)
                 .then(response => {
@@ -90,7 +90,7 @@ class Maintenance extends React.Component {
             const data = {
                 [this.singularizeEntityName()]: { ...entity }
             };
-            const url = 'http://kyrapps.com:4300/api/' + this.state.entityName + '/' + data._id + '?studentID=' + this.props.loggedUser.studentID;
+            const url = this.props.baseApiUrl + this.state.entityName + '/' + data._id + '?studentID=' + this.props.loggedUser.studentID;
 
             Axios.put(url, data)
                 .then(response => {
@@ -112,7 +112,7 @@ class Maintenance extends React.Component {
 
     onDelete = (id) => {
         if (this.props.loggedUser.studentID) {
-            const url = 'http://kyrapps.com:4300/api/' + this.state.entityName + '/' + id + '?studentID=' + this.props.loggedUser.studentID;
+            const url = this.props.baseApiUrl + this.state.entityName + '/' + id + '?studentID=' + this.props.loggedUser.studentID;
 
             Axios.delete(url)
                 .then(response => {
@@ -174,14 +174,16 @@ class Maintenance extends React.Component {
     }
 }
 
-function mapStateToPropsAuth(state) {
+function mapStateToPropsDefault(state) {
     return {
+        baseApiUrl: state.app.baseApiUrl,
         loggedUser: state.auth.loggedUser
     };
 }
 
 function mapStateToPropsUsers(state) {
     return {
+        baseApiUrl: state.app.baseApiUrl,
         loggedUser: state.auth.loggedUser,
         entityName: 'users'
     };
@@ -189,6 +191,7 @@ function mapStateToPropsUsers(state) {
 
 function mapStateToPropsHouses(state) {
     return {
+        baseApiUrl: state.app.baseApiUrl,
         loggedUser: state.auth.loggedUser,
         entityName: 'houses'
     };
@@ -203,7 +206,7 @@ const HousesMaintenance = connect(
 )(Maintenance);
 
 const DefaultMaintenance = connect(
-    mapStateToPropsAuth
+    mapStateToPropsDefault
 )(Maintenance);
 
 export default DefaultMaintenance;

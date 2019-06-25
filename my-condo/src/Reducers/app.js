@@ -1,5 +1,6 @@
 const initialState = {
-    version: '2.0'
+    version: '2.0',
+    baseApiUrl: 'http://kyrapps.com:4300/api/'
 };
 
 export default (state = initialState, action) => {

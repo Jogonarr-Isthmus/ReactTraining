@@ -3,6 +3,10 @@
     pointer-events: none;
 }
 
+.Login-logo {
+    margin: auto;
+}
+
 .nav-link-button {
     background-color: transparent;
     border: none;

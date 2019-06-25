@@ -1,5 +1,4 @@
 import React from 'react';
-import './Login.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Axios from 'axios';
 
@@ -8,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { history } from '../Store';
+import './Login.css';
 
 class Login extends React.Component {
     render() {
@@ -36,7 +36,7 @@ class Login extends React.Component {
                     const data = {
                         user: { ...values }
                     };
-                    Axios.post('http://kyrapps.com:4300/api/login', data).then((response) => {
+                    Axios.post(this.props.baseApiUrl + 'login', data).then((response) => {
                         if (response.data.token) {
                             this.props.logInSuccess(response.data.user);
                             history.push('/Home');
@@ -48,7 +48,7 @@ class Login extends React.Component {
             >
                 {({ isSubmitting }) => (
                     <Form className="Login form form-horizontal form-compact">
-                        <h3>Login to React Practice Site - Isthmus</h3>
+                        <h3>Login to My Condo Site - Isthmus</h3>
                         <div className="form-group">
                             <div className="input-group">
                                 <Field className="form-control" name="email" placeholder="Email" />
@@ -76,7 +76,8 @@ function mapStateToProps(state) {
     return {
         isLogged: state.auth.isLogged,
         loggedUser: state.auth.loggedUser,
-        logginError: state.auth.logginError
+        logginError: state.auth.logginError,
+        baseApiUrl: state.app.baseApiUrl
     };
 }
 

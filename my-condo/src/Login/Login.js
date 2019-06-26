@@ -48,7 +48,7 @@ class Login extends React.Component {
             >
                 {({ isSubmitting }) => (
                     <Form className="Login form form-horizontal form-compact">
-                        <h3>Login to My Condo Site - Isthmus</h3>
+                        <h3>Login to MyCondo</h3>
                         <div className="form-group">
                             <div className="input-group">
                                 <Field className="form-control" name="email" placeholder="Email" />

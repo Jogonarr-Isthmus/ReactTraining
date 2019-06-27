@@ -9,6 +9,8 @@ import './Form.css';
 
 function ReservationForm(props) {
     const [optionsLoaded, setOptionsLoaded] = useState(false);
+    const [houses, setHouses] = useState([]);
+    const [amenities] = useState(props.amenities);
 
     let entity = props.entity;
     if (!entity.Id) {
@@ -20,25 +22,73 @@ function ReservationForm(props) {
         }
     }
 
-    let houseOptions = [];
-    if (props.loggedUser.studentID) {
-        const url = props.baseApiUrl + 'houses?studentID=' + props.loggedUser.studentID;
+    const loadOptions = () => {
+        if (!optionsLoaded) {
+            if (props.loggedUser.studentID) {
+                const url = props.baseApiUrl + 'houses?studentID=' + props.loggedUser.studentID;
 
-        Axios.get(url)
-            .then(response => {
-                console.log('Axios.get - url: ', url);
-                console.log('Axios.get - response: ', response);
+                Axios.get(url)
+                    .then(response => {
+                        console.log('Axios.get - url: ', url);
+                        console.log('Axios.get - response: ', response);
 
-                houseOptions = response.data.house.map(house => <option key={house._id} value={house.location}>{house.location}</option>);
-                setOptionsLoaded(true);
-            })
-            .catch(error => {
-                console.error('Axios.get - url: ', url);
-                console.error('Axios.get - error: ', error);
-            });
+                        setHouses(response.data.house);
+                        setOptionsLoaded(true);
+                    })
+                    .catch(error => {
+                        setHouses([]);
+                        console.error('Axios.get - url: ', url);
+                        console.error('Axios.get - error: ', error);
+                    });
+            }
+        }
     }
 
-    const amenityOptions = props.amenities.map(amenity => <option key={amenity.Id} value={amenity.Name}>{amenity.Name}</option>);
+    const getHouseOptions = () => {
+        let houseOptions;
+
+        if (houses && houses.length > 0) {
+            const compareHouses = (a, b) => {
+                if (a.location > b.location)
+                    return 1;
+                if (a.location < b.location)
+                    return -1;
+                return 0;
+            };
+            let sortedHouses = houses.sort(compareHouses);
+            houseOptions = sortedHouses.map((house, index) => {
+                return (<option key={index}>{house.location}</option>);
+            });
+        } else {
+            houseOptions = <></>;
+        }
+
+        return houseOptions;
+    };
+
+    const getAmenityOptions = () => {
+        let amenityOptions;
+
+        if (amenities && amenities.length > 0) {
+            const compareAmenities = (a, b) => {
+                if (a.Name > b.Name)
+                    return 1;
+                if (a.Name < b.Name)
+                    return -1;
+                return 0;
+            };
+            let sortedAmenities = amenities.sort(compareAmenities);
+            amenityOptions = sortedAmenities.map((amenity, index) => {
+                return (<option key={index}>{amenity.Name}</option>);
+            });
+        } else {
+            amenityOptions = <></>;
+        }
+
+        return amenityOptions;
+    };
+
+    loadOptions();
 
     return !optionsLoaded
         ? <div>Loading form...</div>
@@ -46,7 +96,6 @@ function ReservationForm(props) {
             <Formik
                 initialValues={{ ...entity }}
                 validate={values => {
-                    console.log('values: ', values);
                     let errors = {};
 
                     if (!values.House) {
@@ -96,9 +145,8 @@ function ReservationForm(props) {
                             <div className="col-sm-10 input-group">
                                 <Field className="form-control" component="select" name="House" placeholder="House">
                                     <option disabled value="">Please select a House</option>
-                                    {houseOptions}
+                                    {getHouseOptions()}
                                 </Field>
-                                {/* <Field className="form-control" name="House" placeholder="House" /> */}
                                 <ErrorMessage name="House" component="div" />
                             </div>
                         </div>
@@ -107,9 +155,8 @@ function ReservationForm(props) {
                             <div className="col-sm-10 input-group">
                                 <Field className="form-control" component="select" name="Amenity" placeholder="Amenity">
                                     <option disabled value="">Please select an Amenity</option>
-                                    {amenityOptions}
+                                    {getAmenityOptions()}
                                 </Field>
-                                {/* <Field className="form-control" name="Amenity" placeholder="Amenity" /> */}
                                 <ErrorMessage name="Amenity" component="div" />
                             </div>
                         </div>

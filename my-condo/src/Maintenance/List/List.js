@@ -18,9 +18,9 @@ function List(props) {
                             return (<th key={propertyIndex}>{capitalizeHeader(property)}</th>);
                         })
                     }
-                    <th>Actions</th>
+                    <th className="tableActions">Actions</th>
                 </tr>
-            )
+            );
         } else {
             headers = <tr></tr>;
         }
@@ -45,8 +45,8 @@ function List(props) {
                             <button type="button" className="btn btn-sm btn-danger" onClick={() => props.onDelete(entity._id || entity.Id)}>Delete</button>
                         </td>
                     </tr>
-                )
-            })
+                );
+            });
         } else {
             rows = <tr></tr>;
         }
